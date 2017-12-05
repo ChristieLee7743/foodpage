@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>서울 맛집</title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.js"></script>
+        <style>
+            #logo {
+                padding: 30px;
+                width: 100px;
+                height: 100px;
+            }
+            #map{
+                position: sticky;
+                width:800px;
+                height: 1000px;
+                margin-left: 70px;
+                float: left;
+            }
+            #scroll_menu{
+                position: fixed;
+                border-style: solid;
+                border-width: 2px;
+                border-radius: 20px;
+                border-color: black;
+                float: right;
+                top: 180px;
+                right: 50%;
+                margin-right: -670px;
+                width: 300px;
+                height: 500px;
+                padding: 10px;
+            }
+            #id_name {
+                margin-left: 23%;
+                height: 22px;
+                margin-top: 10px;
+            }
+            #pw {
+                margin-left: 23%;
+                margin-top: 3px;
+                height: 22px;
+            }
+            #sign_in {
+                margin-left: 25.5%;
+                width: 70px;
+                margin-top: 3px;
+            }
+            #log_in {
+                width: 70px;
+                margin-top: 3px;
+            }
+            #my_scrap {
+                margin-top: 50px;
+            }
+            table {
+                //*border-collapse: collapse;*/
+                width: 100%;
+            }
+            td {
+                height: 25px;
+            }
+        </style>
+        <script type="text/javascript">
+            function moveSign() {
+                 location.href = "/sign";
+            }
+            function moveMain() {
+                location.href = "/";
+            }
+            function moveModi() {
+                location.href = "/info_modify";
+            }
+        </script>
+    </head>
+    <body bgcolor="#ffffff">
+        <div id="logo">
+            <h1 style="width: 100px;height: 100px;" onclick="moveMain()">LOGO</h1>
+        </div>
+        <div id="map">
+            <img src="/imgsmap" width="900px" height="500px" usemap='#maplist'>
+            <map name ='maplist'>
+                <area shape="poly" coords="343,45,440,49,431,128,326,118" href="../web/jongno_list.html">
+                <area shape="poly" coords="304,115,330,20,249,19,188,108" href="../web/Eunpyeong_list.html">
+                 <area shape="poly" coords="300,130,181,121,148,165,288,178" href="../web/Sinchon_list.html">
+                 <area shape="poly" coords="190,184,77,175,31,230,143,246" href="../web/Mapo_list.html">
+                 <area shape="poly" coords="326,240,335,195,215,186,182,229" href="../web/Hongdae_list.html"> 
+                 <area shape="poly" coords="498,198,310,181,322,131,503,144" href="../web/Gwanghwa_list.html">
+            </map>
+        </div>
+        <div id="scroll_menu">
+            <h2 style="text-align: center">마이페이지</h2>
+            <div id="log">
+                <% if(locals.login == "none") { %>
+                <form action="/login" method="post" id="log">
+                    <fieldset>
+                        <table align="center">
+                            <tr>
+                                <td><input type="text" placeholder="아이디" name="p_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><input type="password" placeholder="비밀번호" name="p_pw"/></td>
+                            </tr>
+                        </table>
+                        <input type="button" id="sign_in" value="회원가입" onclick="moveSign()"/>
+                        <input type="submit" id="login" value="로그인"/>
+                    </fieldset>
+                </form>
+                <% }else { %>
+                <form action="/logout" method="post">
+                    <fieldset>
+                        <p>안녕하세요. <%= locals.nick %>님!</p>
+                        <input type="submit" id="logout" value="로그아웃" />
+                        <input type="button" id="info_modify" value="정보수정" onclick="moveModi()"/>
+                    </fieldset>
+                </form>
+                <div id="my_clip">
+                    <table>
+                        <tr>
+                            <td>No.</td>
+                            <td>맛집이름</td>
+                            <td>장소</td>
+                        </tr>
+                        <% locals.clip.forEach(function(item, index) { %>
+                        <tr>
+                            <td><%= index %></td>
+                            <td><%= item.st_name %></td>
+                            <td><%= item.lo_name %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </body>
+</html>
